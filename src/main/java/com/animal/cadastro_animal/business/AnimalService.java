@@ -25,6 +25,25 @@ public class AnimalService {
         return repository.findAll();
     }
 
+    public Animal buscarAnimalPorId(Integer id) {
+        return repository.findById(id).orElseThrow(
+                () -> new AnimalNaoEncontradoException(id)
+        );
+    }
+
+    public Animal atualizarAnimalPorId(Integer id, Animal animal) {
+        Animal animalExistente = buscarAnimalPorId(id);
+        animalExistente.setNome(animal.getNome() != null ? animal.getNome() : animalExistente.getNome());
+        animalExistente.setEspecie(animal.getEspecie() != null ? animal.getEspecie() : animalExistente.getEspecie());
+        animalExistente.setRaca(animal.getRaca() != null ? animal.getRaca() : animalExistente.getRaca());
+        animalExistente.setIdade(animal.getIdade() != null ? animal.getIdade() : animalExistente.getIdade());
+        return repository.saveAndFlush(animalExistente);
+    }
+
+    public void deletarAnimalPorId(Integer id) {
+        repository.delete(buscarAnimalPorId(id));
+    }
+
     public Animal buscarAnimalPorEspecie(String especie) {
         return repository.findByEspecie(especie).orElseThrow(
                 () -> new RuntimeException("Espécie não encontrado")
@@ -37,12 +56,11 @@ public class AnimalService {
     }
 
     public Animal atualizarAnimalPorEspecie(String especie, Animal animal) {
-        Animal AnimalEntity = buscarAnimalPorEspecie(especie);
-        Animal animalAtualizado = Animal.builder()
-                .nome(animal.getNome() != null ? animal.getNome() : UsuarioEntity.getNome())
-                .especie(animal.getEspecie() != null ? animal.getEspecie() : UsuarioEntity.getEspecie())
-                .raca(animal.getRaca() != null ? animal.getRaca() : UsuarioEntity.getRaca())
-                .idade(animal.getIdade() != null ? animal.getIdade() : UsuarioEntity.getIdade())
-        return repository.saveAndFlush(UsuarioEntity);
+        Animal animalExistente = buscarAnimalPorEspecie(especie);
+        animalExistente.setNome(animal.getNome() != null ? animal.getNome() : animalExistente.getNome());
+        animalExistente.setEspecie(animal.getEspecie() != null ? animal.getEspecie() : animalExistente.getEspecie());
+        animalExistente.setRaca(animal.getRaca() != null ? animal.getRaca() : animalExistente.getRaca());
+        animalExistente.setIdade(animal.getIdade() != null ? animal.getIdade() : animalExistente.getIdade());
+        return repository.saveAndFlush(animalExistente);
     }
 }

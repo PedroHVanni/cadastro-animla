@@ -11,5 +11,5 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
     Optional<Animal> findByEspecie(String especie);
 
     @Transactional
-    void deleteByEspecie(String especie)
+    void deleteByEspecie(String especie);
 }
