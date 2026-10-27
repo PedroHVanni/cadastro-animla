@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,13 +33,16 @@ public class AnimalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Animal>> listarAnimais() {
+    public ResponseEntity<List<Animal>> listarAnimais(@RequestParam(required = false) String nome) {
+        if (nome != null && !nome.isBlank()) {
+            return ResponseEntity.ok(animalService.buscarAnimaisPorNome(nome));
+        }
         return ResponseEntity.ok(animalService.listarAnimais());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Animal> buscarAnimalPorId(@PathVariable Integer id) {
-        return ResponseEntity.ok(animalService.buscarAnimalPorId(id));
+    @GetMapping("/especie/{especie}")
+    public ResponseEntity<List<Animal>> filtrarAnimaisPorEspecie(@PathVariable String especie) {
+        return ResponseEntity.ok(animalService.buscarAnimaisPorEspecie(especie));
     }
 
     @PutMapping("/{id}")

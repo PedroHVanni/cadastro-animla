@@ -3,7 +3,6 @@ package com.animal.cadastro_animal.business;
 import com.animal.cadastro_animal.infrastructure.entity.Animal;
 import com.animal.cadastro_animal.infrastructure.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,23 +43,12 @@ public class AnimalService {
         repository.delete(buscarAnimalPorId(id));
     }
 
-    public Animal buscarAnimalPorEspecie(String especie) {
-        return repository.findByEspecie(especie).orElseThrow(
-                () -> new RuntimeException("Espécie não encontrado")
-        );
+    public List<Animal> buscarAnimaisPorEspecie(String especie) {
+        return repository.findAllByEspecieIgnoreCase(especie);
     }
 
-    @Transactional
-    public void deletarAnimalPorEspecie(String especie) {
-        repository.deleteByEspecie(especie);
+    public List<Animal> buscarAnimaisPorNome(String nome) {
+        return repository.findAllByNomeContainingIgnoreCase(nome.trim());
     }
 
-    public Animal atualizarAnimalPorEspecie(String especie, Animal animal) {
-        Animal animalExistente = buscarAnimalPorEspecie(especie);
-        animalExistente.setNome(animal.getNome() != null ? animal.getNome() : animalExistente.getNome());
-        animalExistente.setEspecie(animal.getEspecie() != null ? animal.getEspecie() : animalExistente.getEspecie());
-        animalExistente.setRaca(animal.getRaca() != null ? animal.getRaca() : animalExistente.getRaca());
-        animalExistente.setIdade(animal.getIdade() != null ? animal.getIdade() : animalExistente.getIdade());
-        return repository.saveAndFlush(animalExistente);
-    }
 }
