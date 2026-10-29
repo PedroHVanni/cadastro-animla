@@ -43,6 +43,14 @@ public class AnimalService {
         repository.delete(buscarAnimalPorId(id));
     }
 
+    public void deletarAnimaisPorNome(String nome) {
+        List<Animal> animais = repository.findAllByNomeIgnoreCase(nome.trim());
+        if (animais.isEmpty()) {
+            throw new AnimalNaoEncontradoException(nome);
+        }
+        repository.deleteAll(animais);
+    }
+
     public List<Animal> buscarAnimaisPorEspecie(String especie) {
         return repository.findAllByEspecieIgnoreCase(especie);
     }

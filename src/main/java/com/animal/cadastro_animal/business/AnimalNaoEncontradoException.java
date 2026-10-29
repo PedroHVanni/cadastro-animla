@@ -6,4 +6,8 @@ public class AnimalNaoEncontradoException extends RuntimeException {
         super("Animal com id " + id + " não encontrado");
     }
 
+    public AnimalNaoEncontradoException(String nome) {
+        super("Animal com nome " + nome + " não encontrado");
+    }
+
 }

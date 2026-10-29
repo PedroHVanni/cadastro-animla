@@ -57,6 +57,18 @@ public class AnimalController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/nome/{nome}")
+    public ResponseEntity<Void> deletarAnimaisPorNome(@PathVariable String nome) {
+        animalService.deletarAnimaisPorNome(nome);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(params = "nome")
+    public ResponseEntity<Void> deletarAnimaisPorNomeNaConsulta(@RequestParam String nome) {
+        animalService.deletarAnimaisPorNome(nome);
+        return ResponseEntity.noContent().build();
+    }
+
     @ExceptionHandler(AnimalNaoEncontradoException.class)
     public ResponseEntity<Map<String, String>> tratarAnimalNaoEncontrado(AnimalNaoEncontradoException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

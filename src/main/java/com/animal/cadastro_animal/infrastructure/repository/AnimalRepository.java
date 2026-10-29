@@ -11,4 +11,6 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
     List<Animal> findAllByNomeContainingIgnoreCase(String nome);
 
+    List<Animal> findAllByNomeIgnoreCase(String nome);
+
 }
